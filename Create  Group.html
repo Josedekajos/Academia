@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Study Group & Chat</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F9FAFB;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #6D28D9;
+        }
+
+        .btn {
+            padding: 0.7rem 1.2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #8B5CF6;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #6D28D9;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1rem;
+            color: #6D28D9;
+            text-align: center;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal-content .btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        /* Chat Box */
+        .chat-container {
+            display: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 500px;
+            margin: 2rem auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-header {
+            background-color: #6D28D9;
+            color: #fff;
+            padding: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .chat-body {
+            height: 300px;
+            background-color: #F9FAFB;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 0.5rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            margin-left: 0.5rem;
+            padding: 0.7rem 1rem;
+            border: none;
+            background-color: #8B5CF6;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Academia Dashboard</h1>
+            <button class="btn" onclick="openModal()">+ Create Study Group</button>
+        </div>
+
+        <!-- Modal for Creating Study Group -->
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <h2>Create Study Group</h2>
+                <label for="group-name">Group Name</label>
+                <input type="text" id="group-name" placeholder="Enter group name" required>
+
+                <label for="group-description">Description</label>
+                <textarea id="group-description" rows="3" placeholder="Enter group description"></textarea>
+
+                <label for="group-publicity">Publicity</label>
+                <select id="group-publicity">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                </select>
+
+                <button class="btn" onclick="createGroup()">Create Group</button>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chat-container">
+            <div class="chat-header" id="chat-header">Group Chat</div>
+            <div class="chat-body" id="chat-body">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type a message..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const chatContainer = document.getElementById('chat-container');
+        const chatHeader = document.getElementById('chat-header');
+        const chatBody = document.getElementById('chat-body');
+
+        function openModal() {
+            modal.style.display = 'flex';
+        }
+
+        function createGroup() {
+            const groupName = document.getElementById('group-name').value;
+            const groupDescription = document.getElementById('group-description').value;
+
+            if (groupName === '') {
+                alert('Please enter a group name.');
+                return;
+            }
+
+            modal.style.display = 'none';
+
+            // Update chat header with group name
+            chatHeader.innerText = groupName;
+
+            // Show chat container
+            chatContainer.style.display = 'block';
+
+            // Clear form inputs
+            document.getElementById('group-name').value = '';
+            document.getElementById('group-description').value = '';
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const messageText = messageInput.value;
+
+            if (messageText.trim() === '') return;
+
+            const messageDiv = document.createElement('div');
+            messageDiv.style.marginBottom = '0.5rem';
+            messageDiv.innerText = 'You: ' + messageText;
+
+            chatBody.appendChild(messageDiv);
+            messageInput.value = '';
+
+            // Scroll to bottom
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    </script>
+    <!-- Footer with Contact Links -->
+<footer>
+    <div class="contact-links">
+        <a href="https://github.com/josedekajos" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/imele-azafa-jose-de-kajos" target="_blank">LinkedIn</a>
+        <a href="https://www.tiaga.com/josedekajos" target="_blank">Tiaga</a>
+        <a href="josedekajos@gmail.com" target="_blank">Email</a>
+    </div>
+    <button class="about-us-btn" onclick="openAboutUs()">About Us</button>
+</footer>
+
+<!-- About Us Modal -->
+<div id="aboutUsModal" class="modal">
+    <div class="modal-content">
+        <h3>About Us</h3>
+        <div>
+            <div><strong>Imele Azafa</strong><br>Super handsome</div>
+            <div><strong>Funwi Kelsea</strong><br>Super intelligent</div>
+            <div><strong>Matike Frederic</strong><br>Super serious</div>
+            <div><strong>GUimazue Danielle</strong><br>Super jocking</div>
+            <div><strong>Itie Lloyd</strong><br>Super black</div>
+        </div>
+        <button onclick="closeAboutUs()">Close</button>
+    </div>
+</div>
+
+<script>
+    // Open About Us Modal
+    function openAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'flex';
+    }
+
+    // Close About Us Modal
+    function closeAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'none';
+    }
+</script>
+
+<style>
+    footer {
+        width: 100%;
+        background-color: #001000;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: bottom;
+        bottom: 0;
+    }
+
+    .contact-links a {
+        color: white;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+    .contact-links a:hover {
+        text-decoration: underline;
+    }
+
+    .about-us-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    /* About Us Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+    }
+</style>
+
+</body>
+</html>

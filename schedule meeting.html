@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia Dashboard - Schedule Meeting</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F5F3FF;
+            color: #333;
+        }
+
+        .container {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #6D28D9;
+            font-size: 2rem;
+        }
+
+        .content {
+            margin-top: 1.5rem;
+        }
+
+        .schedule-btn {
+            display: block;
+            margin: 1rem auto;
+            padding: 0.8rem 1.2rem;
+            background-color: #6D28D9;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .schedule-btn:hover {
+            background-color: #8B5CF6;
+        }
+
+        /* Meeting Modal */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            z-index: 10;
+            display: none;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #6D28D9;
+        }
+
+        .modal input,
+        .modal textarea,
+        .modal select {
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.7rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 5px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .close-btn,
+        .save-btn {
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            background-color: #E5E7EB;
+        }
+
+        .save-btn {
+            background-color: #8B5CF6;
+            color: white;
+        }
+
+        /* Meeting List */
+        .meeting-list {
+            margin-top: 1.5rem;
+        }
+
+        .meeting-card {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .meeting-card h3 {
+            color: #6D28D9;
+        }
+
+        .meeting-card button {
+            margin: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #E5E7EB;
+            transition: background-color 0.3s;
+        }
+
+        .meeting-card button:hover {
+            background-color: #D1D5DB;
+        }
+
+        .copy-btn {
+            background-color: #6D28D9;
+            color: white;
+        }
+
+        .copy-btn:hover {
+            background-color: #8B5CF6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Academia Dashboard</h1>
+        </div>
+
+        <button class="schedule-btn" id="scheduleBtn">+ Schedule Meeting</button>
+
+        <!-- Meeting Modal -->
+        <div class="modal" id="meetingModal">
+            <div class="modal-header">Schedule a Meeting</div>
+            <input type="date" id="meetingDate" required>
+            <input type="time" id="meetingTime" required>
+            <input type="text" id="meetingLocation" placeholder="Location" required>
+            <textarea id="meetingDescription" rows="3" placeholder="Describe your meeting..." required></textarea>
+            <div class="modal-footer">
+                <button class="close-btn" id="closeModalBtn">Cancel</button>
+                <button class="save-btn" id="saveMeetingBtn">Save</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>Scheduled Meetings</h2>
+            <div class="meeting-list" id="meetingList"></div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('meetingModal');
+        const scheduleBtn = document.getElementById('scheduleBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const saveMeetingBtn = document.getElementById('saveMeetingBtn');
+        const meetingList = document.getElementById('meetingList');
+
+        // Meetings Storage
+        let meetings = JSON.parse(localStorage.getItem('meetings')) || [];
+
+        // Open Modal
+        scheduleBtn.addEventListener('click', () => modal.classList.add('active'));
+
+        // Close Modal
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+
+        // Save Meeting
+        saveMeetingBtn.addEventListener('click', () => {
+            const date = document.getElementById('meetingDate').value;
+            const time = document.getElementById('meetingTime').value;
+            const location = document.getElementById('meetingLocation').value;
+            const description = document.getElementById('meetingDescription').value;
+
+            if (date && time && location && description) {
+                const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+                meetings.push({ date, time, location, description, code });
+                localStorage.setItem('meetings', JSON.stringify(meetings));
+                displayMeetings();
+                modal.classList.remove('active');
+            } else {
+                alert('Please fill all fields.');
+            }
+        });
+
+        // Display Meetings
+        function displayMeetings() {
+            meetingList.innerHTML = meetings.map(
+                (meeting, index) => `
+                <div class="meeting-card">
+                    <h3>${meeting.description}</h3>
+                    <p><strong>Date:</strong> ${meeting.date}</p>
+                    <p><strong>Time:</strong> ${meeting.time}</p>
+                    <p><strong>Location:</strong> ${meeting.location}</p>
+                    <p><strong>Code:</strong> <span>${meeting.code}</span> <button class="copy-btn" onclick="copyCode('${meeting.code}')">Copy</button></p>
+                    <button onclick="deleteMeeting(${index})">Delete</button>
+                </div>`
+            ).join('');
+        }
+
+        // Delete Meeting
+        function deleteMeeting(index) {
+            meetings.splice(index, 1);
+            localStorage.setItem('meetings', JSON.stringify(meetings));
+            displayMeetings();
+        }
+
+        // Copy Code
+        function copyCode(code) {
+            navigator.clipboard.writeText(code);
+            alert('Meeting code copied!');
+        }
+
+        // Initial Display
+        displayMeetings();
+    </script>
+    
+</body>
+</html>

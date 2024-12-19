@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia Dashboard - Course Library</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F5F3FF;
+            color: #333;
+        }
+
+        .container {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            color: #6D28D9;
+            font-size: 2rem;
+        }
+
+        .courses-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .course {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: calc(33.333% - 1rem);
+            padding: 1rem;
+        }
+
+        .course h3 {
+            color: #6D28D9;
+            margin-bottom: 0.5rem;
+        }
+
+        .course p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #6D28D9;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #4C1D95;
+        }
+
+        .course-content {
+            display: none;
+            margin-top: 1.5rem;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .course-content-header h2 {
+            color: #6D28D9;
+        }
+
+        .notes {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #E5E7EB;
+            background-color: #F9FAFB;
+            border-radius: 5px;
+        }
+
+        .badge {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #6D28D9;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Course Library</h1>
+        </div>
+
+        <!-- Courses List -->
+        <div class="courses-list" id="coursesList">
+            <!-- Courses will be dynamically populated here -->
+        </div>
+
+        <!-- Course Content -->
+        <div class="course-content" id="courseContent">
+            <div class="course-content-header">
+                <h2 id="courseTitle">Course Title</h2>
+                <button class="btn" onclick="leaveCourse()">Leave Course</button>
+            </div>
+            <div class="notes" id="courseNotes">
+                <!-- Notes will be displayed here -->
+            </div>
+            <button class="btn" onclick="finishCourse()">I have finished the course</button>
+            <div class="badge" id="courseBadge"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simulated Courses
+        const courses = [
+            { title: "Introduction to Programming", preview: "Learn the basics of programming languages." },
+            { title: "Web Development", preview: "Build websites using HTML, CSS, and JavaScript." },
+            { title: "Data Structures", preview: "Understand how data is organized and manipulated." },
+            { title: "Machine Learning", preview: "An introduction to AI and predictive modeling." },
+            { title: "Cybersecurity", preview: "Learn to protect systems from cyber threats." },
+            { title: "Mobile App Development", preview: "Create mobile applications for Android and iOS." },
+            { title: "Game Development", preview: "Build interactive games with Unity and Unreal Engine." },
+            { title: "Cloud Computing", preview: "Master cloud technologies and services." }
+        ];
+
+        // Render Courses List
+        const coursesList = document.getElementById("coursesList");
+        courses.forEach((course, index) => {
+            const courseDiv = document.createElement("div");
+            courseDiv.classList.add("course");
+            courseDiv.innerHTML = `
+                <h3>${course.title}</h3>
+                <p>${course.preview}</p>
+                <button class="btn" id="courseBtn${index}" onclick="enrollCourse(${index})">Enroll</button>
+            `;
+            coursesList.appendChild(courseDiv);
+        });
+
+        let currentCourse = null;
+
+        // Enroll in a Course
+        function enrollCourse(index) {
+            const btn = document.getElementById(`courseBtn${index}`);
+            btn.textContent = "Start Course";
+            btn.onclick = () => startCourse(index);
+        }
+
+        // Start a Course
+        const courseContent = document.getElementById("courseContent");
+        const courseTitle = document.getElementById("courseTitle");
+        const courseNotes = document.getElementById("courseNotes");
+        const courseBadge = document.getElementById("courseBadge");
+
+        function startCourse(index) {
+            currentCourse = courses[index];
+            courseTitle.textContent = currentCourse.title;
+            courseNotes.textContent = "This is where the course content and notes will appear.";
+            courseContent.style.display = "block";
+            coursesList.style.display = "none";
+        }
+
+        // Leave a Course
+        function leaveCourse() {
+            currentCourse = null;
+            courseContent.style.display = "none";
+            coursesList.style.display = "flex";
+        }
+
+        // Finish a Course
+        function finishCourse() {
+            courseBadge.textContent = `Congratulations! You earned a badge for completing "${currentCourse.title}".`;
+        }
+    </script>
+    <!-- Footer with Contact Links -->
+<footer>
+    <div class="contact-links">
+        <a href="https://github.com/josedekajos" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/imele-azafa-jose-de-kajos" target="_blank">LinkedIn</a>
+        <a href="https://www.tiaga.com/josedekajos" target="_blank">Tiaga</a>
+        <a href="josedekajos@gmail.com" target="_blank">Email</a>
+    </div>
+    <button class="about-us-btn" onclick="openAboutUs()">About Us</button>
+</footer>
+
+<!-- About Us Modal -->
+<div id="aboutUsModal" class="modal">
+    <div class="modal-content">
+        <h3>About Us</h3>
+        <div>
+            <div><strong>Imele Azafa</strong><br>Super handsome</div>
+            <div><strong>Funwi Kelsea</strong><br>Super intelligent</div>
+            <div><strong>Matike Frederic</strong><br>Super serious</div>
+            <div><strong>GUimazue Danielle</strong><br>Super jocking</div>
+            <div><strong>Itie Lloyd</strong><br>Super black</div>
+        </div>
+        <button onclick="closeAboutUs()">Close</button>
+    </div>
+</div>
+
+<script>
+    // Open About Us Modal
+    function openAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'flex';
+    }
+
+    // Close About Us Modal
+    function closeAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'none';
+    }
+</script>
+
+<style>
+    footer {
+        width: 100%;
+        background-color: #001000;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: bottom;
+        bottom: 0;
+    }
+
+    .contact-links a {
+        color: white;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+    .contact-links a:hover {
+        text-decoration: underline;
+    }
+
+    .about-us-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    /* About Us Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+    }
+</style>
+
+</body>
+</html>

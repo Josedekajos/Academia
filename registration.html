@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Group Registration | Academia</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #F9FAFB;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .form-container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      max-width: 450px;
+      width: 100%;
+    }
+
+    .form-container h1 {
+      margin-bottom: 1rem;
+      color: #6D28D9;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .row > div {
+      flex: 1;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #555;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #8B5CF6;
+      box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+    }
+
+    textarea {
+      resize: none;
+      height: 60px;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #8B5CF6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #6D28D9;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    p a {
+      color: #8B5CF6;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    p a:hover {
+      color: #6D28D9;
+    }
+
+    .success-message {
+      display: none;
+      color: green;
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>Join Academia</h1>
+    <form id="registrationForm" onsubmit="submitForm(event);">
+      <div class="row">
+        <div>
+          <label for="name">First Name:</label>
+          <input type="text" id="name" name="name" placeholder="First name" required>
+        </div>
+        <div>
+          <label for="surname">Last Name:</label>
+          <input type="text" id="surname" name="surname" placeholder="Last name" required>
+        </div>
+      </div>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <div class="row">
+        <div>
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" name="phone" placeholder="Phone number" required>
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" placeholder="Create a password" required>
+        </div>
+      </div>
+
+      <label for="level">Current Level of Study:</label>
+      <select id="level" name="level" required>
+        <option value="" disabled selected>Select your level</option>
+        <option value="highschool">High School</option>
+        <option value="undergraduate">Undergraduate</option>
+        <option value="postgraduate">Postgraduate</option>
+      </select>
+
+      <label for="goals">Goals for Joining:</label>
+      <textarea id="goals" name="goals" placeholder="Write your goals here..." required></textarea>
+      
+      <p>Already have an account? <a class = "create-account-link" onclick = "window.location.href = 'login.html'">Log in</a></p>
+      <button type="submit">Submit</button>
+    </form>
+    <div class="success-message" id="success-message">
+      Registration Successful! Redirecting...
+    </div>
+  </div>
+
+  <script>
+    function submitForm(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      // Simulate a successful registration
+      const successMessage = document.getElementById("success-message");
+      successMessage.style.display = "block";
+
+      // Redirect to the study group homepage after a short delay
+      setTimeout(() => {
+        window.location.href = "Home.html"; // Redirect to home
+      }, 2000);
+    }
+  </script>
+  
+</body>
+</html>

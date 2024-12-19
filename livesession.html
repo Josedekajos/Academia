@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Sessions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F9FAFB;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #6D28D9;
+            text-align: center;
+        }
+
+        .session-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background-color: #8B5CF6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #6D28D9;
+        }
+
+        #meeting-details {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #6D28D9;
+            word-break: break-all;
+        }
+
+        .join-btn {
+            background-color: #10B981;
+            margin-top: 1rem;
+        }
+
+        .join-btn:hover {
+            background-color: #059669;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Sessions</h1>
+    <div class="session-container">
+        <p>Click the button below to start a live session. A meeting code will be generated, and you can join the session using a  Zoom account.</p>
+        <button class="btn" onclick="startLiveSession()">Start Live Session</button>
+        <div id="meeting-details" style="display: none;">
+            <p>Meeting Code: <span id="meeting-code"></span></p>
+            <button class="btn join-btn">
+                <a id="zoom-link" href="#" target="_blank">Join Live Session</a>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function startLiveSession() {
+            // Generate a random meeting code
+            const meetingCode = generateRandomCode();
+            const zoomLink = "https://zoom.us/fr/signin#/login"; // Simulated Zoom link
+
+            // Update the DOM
+            document.getElementById("meeting-code").innerText = meetingCode;
+            document.getElementById("zoom-link").href = zoomLink;
+            document.getElementById("meeting-details").style.display = "block";
+        }
+
+        function generateRandomCode() {
+            let code = '';
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            for (let i = 0; i < 10; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+    </script>
+    <!-- Footer with Contact Links -->
+<footer>
+    <div class="contact-links">
+        <a href="https://github.com/josedekajos" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/imele-azafa-jose-de-kajos" target="_blank">LinkedIn</a>
+        <a href="https://www.tiaga.com/josedekajos" target="_blank">Tiaga</a>
+        <a href="josedekajos@gmail.com" target="_blank">Email</a>
+    </div>
+    <button class="about-us-btn" onclick="openAboutUs()">About Us</button>
+</footer>
+
+<!-- About Us Modal -->
+<div id="aboutUsModal" class="modal">
+    <div class="modal-content">
+        <h3>About Us</h3>
+        <div>
+            <div><strong>Imele Azafa</strong><br>Super handsome</div>
+            <div><strong>Funwi Kelsea</strong><br>Super intelligent</div>
+            <div><strong>Matike Frederic</strong><br>Super serious</div>
+            <div><strong>GUimazue Danielle</strong><br>Super jocking</div>
+            <div><strong>Itie Lloyd</strong><br>Super black</div>
+        </div>
+        <button onclick="closeAboutUs()">Close</button>
+    </div>
+</div>
+
+<script>
+    // Open About Us Modal
+    function openAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'flex';
+    }
+
+    // Close About Us Modal
+    function closeAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'none';
+    }
+</script>
+
+<style>
+    footer {
+        width: 100%;
+        background-color: #001000;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: bottom;
+        bottom: 0;
+    }
+
+    .contact-links a {
+        color: white;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+    .contact-links a:hover {
+        text-decoration: underline;
+    }
+
+    .about-us-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    /* About Us Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+    }
+</style>
+
+</body>
+</html>

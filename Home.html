@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia Dashboard</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body styling */
+        body {
+            background-color: #F5F3FF;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #6D28D9;
+        }
+
+        /* Icons on the right */
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            color: #6B7280;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .icon:hover {
+            color: #8B5CF6;
+        }
+
+        /* Buttons Row */
+        .buttons-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            margin: 0.5rem;
+            padding: 0.7rem;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #E5E7EB;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #D1D5DB;
+        }
+
+        /* Cards Layout */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .card-title .icon {
+            font-size: 1.3rem;
+            color: #8B5CF6;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .card .btn-primary {
+            display: inline-block;
+            background-color: #8B5CF6;
+            color: #fff;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .card .btn-primary:hover {
+            background-color: #6D28D9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container -->
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <!-- Title -->
+            <h1>Academia Dashboard</h1>
+
+            <!-- Icons -->
+            <div class="header-icons">
+                <span class="icon" onclick = "window.location.href = 'setting and notification.html'"">🔔</span>
+                <span class="icon" onclick = "window.location.href = 'settings.html'">⚙️</span>
+            </div>
+        </div>
+
+        <!-- Top Buttons Row -->
+        <div class="buttons-row">
+            <button class="btn" onclick = "window.location.href = 'Create  Group.html'">+ Create Study Group</button>
+            <button class="btn" onclick = "window.location.href = 'start a chat.html'">💬 Start New Chat</button>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="cards">
+            <!-- Course Library -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">📚</span>
+                    Course Library
+                </div>
+                <p>Access our extensive library of courses across various subjects.</p>
+                <a window.location.href="course library.html" class="btn-primary" onclick="window.location.href = 'course library.html'">Browse Courses</a>
+            </div>
+
+            <!-- Live Sessions -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">🎥</span>
+                    Live Sessions
+                </div>
+                <p>Join interactive live sessions with expert instructors.</p>
+                <a window.location.href="livesession.html" class="btn-primary" onclick="window.location.href = 'livesession.html'">View Schedule</a>
+            </div>
+
+            <!-- Study Groups -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">👥</span>
+                    Study Groups
+                </div>
+                <p>Connect with peers and form study groups.</p>
+                <a window.location.href="StudyGroups.html" class="btn-primary" onclick="window.location.href = 'StudyGroups.html'">Find Groups</a>
+            </div>
+
+            <!-- Discussion Forums -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">💬</span>
+                    Discussion Forums
+                </div>
+                <p>Engage in discussions about various academic topics.</p>
+                <a window.location.href="Discussion forums.html" class="btn-primary" onclick="window.location.href = 'Discussion forums.html'">Join Discussions</a>
+            </div>
+
+            <!-- My Schedule -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">📅</span>
+                    My Schedule
+                </div>
+                <p>Manage your learning schedule and deadlines.</p>
+                <a window.location.href="schedule meeting.html" class="btn-primary" onclick="window.location.href = 'schedule meeting.html'">View Calendar</a>
+            </div>
+
+            <!-- Progress Tracking -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">🏆</span>
+                    Progress Tracking
+                </div>
+                <p>Monitor your learning progress and achievements.</p>
+                <a window.location.href="progres tracking.html" class="btn-primary" onclick="window.location.href='progres tracking.html'">View Progress</a>
+            </div>
+        </div>
+    </div>
+<!-- Footer with Contact Links -->
+<footer>
+    <div class="contact-links">
+        <a href="https://github.com/josedekajos" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/imele-azafa-jose-de-kajos" target="_blank">LinkedIn</a>
+        <a href="https://www.tiaga.com/josedekajos" target="_blank">Tiaga</a>
+        <a href="josedekajos@gmail.com" target="_blank">Email</a>
+    </div>
+    <button class="about-us-btn" onclick="openAboutUs()">About Us</button>
+</footer>
+
+<!-- About Us Modal -->
+<div id="aboutUsModal" class="modal">
+    <div class="modal-content">
+        <h3>About Us</h3>
+        <div>
+            <div><strong>Imele Azafa</strong><br>Super handsome</div>
+            <div><strong>Funwi Kelsea</strong><br>Super intelligent</div>
+            <div><strong>Matike Frederic</strong><br>Super serious</div>
+            <div><strong>GUimazue Danielle</strong><br>Super jocking</div>
+            <div><strong>Itie Lloyd</strong><br>Super black</div>
+        </div>
+        <button onclick="closeAboutUs()">Close</button>
+    </div>
+</div>
+
+<script>
+    // Open About Us Modal
+    function openAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'flex';
+    }
+
+    // Close About Us Modal
+    function closeAboutUs() {
+        document.getElementById('aboutUsModal').style.display = 'none';
+    }
+</script>
+
+<style>
+    footer {
+        width: 100%;
+        background-color: #001000;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: bottom;
+        bottom: 0;
+    }
+
+    .contact-links a {
+        color: white;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+    .contact-links a:hover {
+        text-decoration: underline;
+    }
+
+    .about-us-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    /* About Us Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+    }
+</style>
+    <script>
+        // Alert function for button and icon clicks
+        function showAlert(action) {
+            alert(action + " clicked! Add your functionality here.");
+        }
+    </script>
+</body>
+</html>

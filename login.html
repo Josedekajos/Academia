@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Academia</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #F9FAFB;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .form-container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .form-container h2 {
+      margin-bottom: 1.5rem;
+      color: #6D28D9;
+      font-size: 1.8rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #8B5CF6;
+      box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #8B5CF6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-button:hover {
+      background-color: #6D28D9;
+    }
+
+    .text-center {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .create-account-link {
+      color: #8B5CF6;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .create-account-link:hover {
+      color: #6D28D9;
+    }
+
+    /* Success Simulation */
+    .success-message {
+      color: green;
+      font-size: 1rem;
+      display: none;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <form class="form-form" onsubmit="login(event);">
+      <h2>Login to Academia</h2>
+      <div class="success-message" id="success-message">Login Successful! Redirecting...</div>
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit" class="login-button">Log In</button>
+      <p class="text-center">Don't have an account? <a class = "create-account-link" onclick = "window.location.href = 'registration.html'">Create Account</a></p>
+    </form>
+  </div>
+
+  <script>
+    function login(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      const successMessage = document.getElementById("success-message");
+
+      // Display success message
+      successMessage.style.display = "block";
+
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        window.location.href = "Home.html"; // Simulated redirection
+      }, 1500);
+    }
+  </script>
+  
+</body>
+</html>
