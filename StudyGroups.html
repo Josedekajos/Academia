@@ -177,14 +177,23 @@
     </div>
 
     <script>
-        // Simulated group data
-        const studyGroups = [
-            { name: "Math Enthusiasts", description: "A group for lovers of calculus, algebra, and geometry." },
-            { name: "Science Scholars", description: "Dive deep into physics, chemistry, and biology topics." },
-            { name: "Literature Lovers", description: "Discuss your favorite books, poetry, and authors." },
-            { name: "History Buffs", description: "Explore ancient civilizations, wars, and historical events." },
-            { name: "Coding Wizards", description: "A space for programmers to share and learn coding skills." },
-        ];
+        // Fetch study groups from the API
+        fetch('http://localhost:3000/api/groups')
+            .then(response => response.json())
+            .then(studyGroups => {
+            const groupContainer = document.getElementById("group-container");
+            studyGroups.forEach(group => {
+                const groupCard = document.createElement("div");
+                groupCard.className = "group-card";
+                groupCard.innerHTML = `
+                <div class="group-title">${group.name}</div>
+                <div class="group-description">${group.description}</div>
+                <button class="btn-join" onclick="joinGroup('${group.name}')">Join Group</button>
+                `;
+                groupContainer.appendChild(groupCard);
+            });
+            })
+            .catch(error => console.error('Error fetching study groups:', error));
 
         // Load study groups dynamically
         const groupContainer = document.getElementById("group-container");

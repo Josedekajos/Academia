@@ -136,9 +136,36 @@
       // Display success message
       successMessage.style.display = "block";
 
-      // Redirect to dashboard after a short delay
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const user = { email, password };
+      localStorage.setItem("user", JSON.stringify(user));
+      fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          window.location.href = "Home.html";
+        } else {
+          successMessage.style.display = "none";
+          alert('Login failed: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        successMessage.style.display = "none";
+        alert('An error occurred. Please try again.');
+      });
+    
       setTimeout(() => {
-        window.location.href = "Home.html"; // Simulated redirection
+        window.location.href = "Home.html";
       }, 1500);
     }
   </script>

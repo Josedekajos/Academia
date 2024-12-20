@@ -15,9 +15,8 @@ CREATE TABLE studyconnect.users (
 CREATE TABLE studyconnect.groups (
     id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+	members INT DEFAULT 0,
     description TEXT,
-    members INT DEFAULT 0,
-    topic VARCHAR(255) DEFAULT 'undefined',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -60,7 +59,7 @@ CREATE TABLE studyconnect.study_sessions (
     FOREIGN KEY (group_id) REFERENCES studyconnect.groups(id) ON DELETE CASCADE
 );
 
-INSERT INTO studyconnect.groups (name, members, topic) VALUES
+INSERT INTO studyconnect.groups (name, members, description) VALUES
 ('Git And Github', 2, 'version control'),
 ('Software Development Tools', 2, 'engineering'),
 ('Information System Analysis and Design', 2, 'systems design'),
