@@ -51,7 +51,7 @@ app.get('/api/groups', (req, res) => {
 
 app.post('/api/students', (req, res) => {
   const { name, age, email, enrollment_date } = req.body;
-  const query = 'INSERT INTO studygroup.students (name, age, email, enrollment_date) VALUES (? , ?, ?, ?)';
+  const query = 'INSERT INTO studyconnect.students (name, age, email, enrollment_date) VALUES (? , ?, ?, ?)';
   db.query(query, [[name, age, email, enrollment_date]], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
@@ -61,25 +61,24 @@ app.post('/api/students', (req, res) => {
   });
 });
 
-// authentification
 
 // Signup
-app.post('/api/auth/signup', (req, res) => {
-  const { name, email, password } = req.body;
+app.post('/api/register', (req, res) => {
+  const { first_name, last_name, email, password, phone, level, goals } = req.body;
 
   // Hash the password before saving
   const bcrypt = require('bcryptjs');
   const saltRounds = 10;
 
   bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-    if (err) {
+    if (err) {s
       res.status(500).send('Error hashing password');
       return;
     }
 
     // Query to insert the user
-    const query = 'INSERT INTO studygroup.users (name, email, password) VALUES (?, ?, ?)';
-    db.query(query, [name, email, hashedPassword], (err, results) => {
+    const query = 'INSERT INTO studyconnect.users (first_name, last_name, email, password, phone, level, goals) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    db.query(query, [first_name, last_name, email, hashedPassword, phone, level, goals ], (err, results) => {
       if (err) {
         res.status(500).send(err.message);
         return;
@@ -90,10 +89,11 @@ app.post('/api/auth/signup', (req, res) => {
 });
 
 
-app.post('/api/auth/login', (req, res) => {
+app.post('/api/login', (req, res) => {
+
   const { email, password } = req.body;
 
-  const query = 'SELECT * FROM studygroup.users WHERE email = ?';
+  const query = 'SELECT * FROM studyconnect.users WHERE email = ?';
   db.query(query, [email], (err, results) => {
     if (err) {
       res.status(500).send(err.message);

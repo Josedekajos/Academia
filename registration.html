@@ -133,11 +133,11 @@
       <div class="row">
         <div>
           <label for="name">First Name:</label>
-          <input type="text" id="name" name="name" placeholder="First name" required>
+          <input type="text" id="first_name" name="first_name" placeholder="First name" required>
         </div>
         <div>
           <label for="surname">Last Name:</label>
-          <input type="text" id="surname" name="surname" placeholder="Last name" required>
+          <input type="text" id="last_name" name="last_name" placeholder="Last name" required>
         </div>
       </div>
 
@@ -182,10 +182,42 @@
       const successMessage = document.getElementById("success-message");
       successMessage.style.display = "block";
 
-      // Redirect to the study group homepage after a short delay
-      setTimeout(() => {
-        window.location.href = "Home.html"; // Redirect to home
-      }, 2000);
+      const form = document.getElementById('registrationForm');
+      const formData = new FormData(form);
+
+      const data = {
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        password: formData.get('password'),
+        level: formData.get('level'),
+        goals: formData.get('goals')
+      };
+
+      console.log('about to summit the form: ', data);
+
+      fetch('http://localhost:3000/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          successMessage.style.display = "block";
+        } else {
+         console.log('Registration failed: ' + result.message);
+        }
+        setTimeout(() => {
+          window.location.href = '/Home.html';
+        }, 2000)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     }
   </script>
   

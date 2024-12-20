@@ -154,21 +154,17 @@
           localStorage.setItem("user", JSON.stringify(data.user));
           window.location.href = "Home.html";
         } else {
-          successMessage.style.display = "none";
-          alert('Login failed: ' + data.message);
+          successMessage.textContent = data.message;
+          setTimeout(() => {
+            successMessage.style.display = "none";
+          }, 5000);
         }
       })
       .catch(error => {
         console.error('Error:', error);
         successMessage.style.display = "none";
-        alert('An error occurred. Please try again.');
       });
-    
-      setTimeout(() => {
-        window.location.href = "Home.html";
-      }, 1500);
     }
   </script>
-  
 </body>
 </html>
