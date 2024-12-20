@@ -63,22 +63,22 @@ app.post('/api/students', (req, res) => {
 
 
 // Signup
-app.post('/api/signup', (req, res) => {
-  const { name, email, password } = req.body;
+app.post('/api/register', (req, res) => {
+  const { first_name, last_name, email, password, phone, level, goals } = req.body;
 
   // Hash the password before saving
   const bcrypt = require('bcryptjs');
   const saltRounds = 10;
 
   bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-    if (err) {
+    if (err) {s
       res.status(500).send('Error hashing password');
       return;
     }
 
     // Query to insert the user
-    const query = 'INSERT INTO studyconnect.users (name, email, password) VALUES (?, ?, ?)';
-    db.query(query, [name, email, hashedPassword], (err, results) => {
+    const query = 'INSERT INTO studyconnect.users (first_name, last_name, email, password, phone, level, goals) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    db.query(query, [first_name, last_name, email, hashedPassword, phone, level, goals ], (err, results) => {
       if (err) {
         res.status(500).send(err.message);
         return;
