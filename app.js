@@ -51,7 +51,7 @@ app.get('/api/groups', (req, res) => {
 
 app.post('/api/students', (req, res) => {
   const { name, age, email, enrollment_date } = req.body;
-  const query = 'INSERT INTO studygroup.students (name, age, email, enrollment_date) VALUES (? , ?, ?, ?)';
+  const query = 'INSERT INTO studyconnect.students (name, age, email, enrollment_date) VALUES (? , ?, ?, ?)';
   db.query(query, [[name, age, email, enrollment_date]], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
@@ -61,10 +61,9 @@ app.post('/api/students', (req, res) => {
   });
 });
 
-// authentification
 
 // Signup
-app.post('/api/auth/signup', (req, res) => {
+app.post('/api/signup', (req, res) => {
   const { name, email, password } = req.body;
 
   // Hash the password before saving
@@ -78,7 +77,7 @@ app.post('/api/auth/signup', (req, res) => {
     }
 
     // Query to insert the user
-    const query = 'INSERT INTO studygroup.users (name, email, password) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO studyconnect.users (name, email, password) VALUES (?, ?, ?)';
     db.query(query, [name, email, hashedPassword], (err, results) => {
       if (err) {
         res.status(500).send(err.message);
@@ -90,10 +89,11 @@ app.post('/api/auth/signup', (req, res) => {
 });
 
 
-app.post('/api/auth/login', (req, res) => {
+app.post('/api/login', (req, res) => {
+
   const { email, password } = req.body;
 
-  const query = 'SELECT * FROM studygroup.users WHERE email = ?';
+  const query = 'SELECT * FROM studyconnect.users WHERE email = ?';
   db.query(query, [email], (err, results) => {
     if (err) {
       res.status(500).send(err.message);
