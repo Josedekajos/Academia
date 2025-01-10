@@ -3,6 +3,7 @@ import Home from '../pages/Home';
 import About from '../pages/About';
 import NotFound from '../pages/NotFound';
 import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard'; // Import the Dashboard component
 
 const AppRouter = () => {
   return (
@@ -11,6 +12,7 @@ const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
