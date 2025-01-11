@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Users, Book, Activity, Plus, ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import axiosClient from "../axios.js";
 
 const StudyGroupsPage = () => {
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -132,7 +133,7 @@ const StudyGroupsPage = () => {
 
     const handleCreateGroup = async () => {
         try {
-            const response = await axios.post('/api/groups', newGroupData);
+            const response = await axiosClient.post('/api/groups', newGroupData);
             toast.success('Group created successfully!');
             setIsModalOpen(false);
             // Optionally reset form data
