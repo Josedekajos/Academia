@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import FormInput from '../components/FormInput';
-import { toast } from 'react-toastify';
-import axiosClient from "../axios.js";
 
-const Login = () => {
+const Signup = () => {
     const [formData, setFormData] = useState({
+        name: '',
+        username: '',
         email: '',
         password: '',
+        dateOfBirth: '',
     });
     const [errors, setErrors] = useState({
+        name: '',
+        username: '',
         email: '',
         password: '',
+        dateOfBirth: '',
     });
 
     const handleChange = (e) => {
@@ -20,10 +24,20 @@ const Login = () => {
         setErrors((prev) => ({ ...prev, [name]: '' }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        let newErrors = { email: '', password: '' };
+        let newErrors = { name: '', username: '', email: '', password: '', dateOfBirth: '' };
         let isValid = true;
+
+        if (!formData.name) {
+            newErrors.name = 'Name is required';
+            isValid = false;
+        }
+
+        if (!formData.username) {
+            newErrors.username = 'Username is required';
+            isValid = false;
+        }
 
         if (!formData.email) {
             newErrors.email = 'Email is required';
@@ -36,25 +50,21 @@ const Login = () => {
         if (!formData.password) {
             newErrors.password = 'Password is required';
             isValid = false;
+        } else if (formData.password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters long';
+            isValid = false;
+        }
+
+        if (!formData.dateOfBirth) {
+            newErrors.dateOfBirth = 'Date of birth is required';
+            isValid = false;
         }
 
         setErrors(newErrors);
 
         if (isValid) {
-            try {
-                const response = await axiosClient.post('auth/login', {
-                    email: formData.email,
-                    password: formData.password
-                });
-
-                // Store user in localStorage
-                localStorage.setItem('user', JSON.stringify(response.data.user)); // Adjust according to your API response structure
-                toast.success('Login successful!'); // Show success toast
-            } catch (err) {
-                const errorMessage = err.response?.data?.message || 'An error occurred';
-                setErrors({ email: errorMessage, password: errorMessage }); // Set error state
-                toast.error(errorMessage); // Show error toast
-            }
+            // TODO: Implement signup logic
+            console.log('Signup form submitted:', formData);
         }
     };
 
@@ -67,9 +77,25 @@ const Login = () => {
                 className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg"
             >
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to Academia</h2>
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create your Academia account</h2>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                    <FormInput
+                        label="Full Name"
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        error={errors.name}
+                    />
+                    <FormInput
+                        label="Username"
+                        type="text"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        error={errors.username}
+                    />
                     <FormInput
                         label="Email Address"
                         type="email"
@@ -86,6 +112,14 @@ const Login = () => {
                         onChange={handleChange}
                         error={errors.password}
                     />
+                    <FormInput
+                        label="Date of Birth"
+                        type="date"
+                        name="dateOfBirth"
+                        value={formData.dateOfBirth}
+                        onChange={handleChange}
+                        error={errors.dateOfBirth}
+                    />
                     <div>
                         <motion.button
                             whileHover={{ scale: 1.05 }}
@@ -93,13 +127,13 @@ const Login = () => {
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                         >
-                            Sign in
+                            Sign up
                         </motion.button>
                     </div>
                 </form>
                 <div className="text-center">
-                    <a href="/signup" className="font-medium text-purple-600 hover:text-purple-500">
-                        Don't have an account? Sign up
+                    <a href="/login" className="font-medium text-purple-600 hover:text-purple-500">
+                        Already have an account? Sign in
                     </a>
                 </div>
             </motion.div>
@@ -107,4 +141,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;

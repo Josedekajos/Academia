@@ -1,11 +1,21 @@
+import Header from "../components/Home/Header.jsx";
+import Hero from "../components/Home/Hero.jsx";
+import Features from "../components/Home/Features.jsx";
+import Testimonials from "../components/Home/Testimonials.jsx";
+import Pricing from "../components/Home/Pricing.jsx";
+import CallToAction from "../components/Home/CallToAction.jsx";
+import Footer from "../components/Home/Footer.jsx";
+
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-50">
-      <h1 className="text-4xl font-bold text-blue-600">Welcome to StudyConnect</h1>
-      <p className="mt-4 text-lg text-gray-700">Your virtual study platform</p>
-      <a href="/login" className="px-4 py-2 mt-6 text-white bg-blue-600 rounded hover:bg-blue-700">
-        Get Started
-      </a>
+    <div className="font-sans">
+      <Header />
+      <Hero />
+      <Features />
+      <Testimonials />
+      <Pricing />
+      <CallToAction />
+      <Footer />
     </div>
   );
 };
