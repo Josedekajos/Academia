@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { motion } from 'framer-motion';
 import FormInput from '../components/FormInput';
 import { toast } from 'react-toastify';
 import axiosClient from "../axios.js";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -14,11 +15,20 @@ const Login = () => {
         password: '',
     });
 
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: '' }));
     };
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            window.location.href = '/dashboard';
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -99,7 +109,7 @@ const Login = () => {
                 </form>
                 <div className="text-center">
                     <a href="/signup" className="font-medium text-purple-600 hover:text-purple-500">
-                        Don't have an account? Sign up
+                        Don&#39;t have an account? Sign up
                     </a>
                 </div>
             </motion.div>

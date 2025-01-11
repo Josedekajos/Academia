@@ -1,22 +1,31 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import FormInput from '../components/FormInput';
+import axiosClient from "../axios.js";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const Signup = () => {
     const [formData, setFormData] = useState({
-        name: '',
-        username: '',
+        first_name: '',
+        last_name: '',
         email: '',
+        phone: '',
         password: '',
-        dateOfBirth: '',
+        level: '',
+        goals: '',
     });
     const [errors, setErrors] = useState({
-        name: '',
-        username: '',
+        first_name: '',
+        last_name: '',
         email: '',
+        phone: '',
         password: '',
-        dateOfBirth: '',
+        level: '',
+        goals: '',
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,16 +35,16 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let newErrors = { name: '', username: '', email: '', password: '', dateOfBirth: '' };
+        let newErrors = { first_name: '', last_name: '', email: '', phone: '', password: '', level: '', goals: '' };
         let isValid = true;
 
-        if (!formData.name) {
-            newErrors.name = 'Name is required';
+        if (!formData.first_name) {
+            newErrors.first_name = 'First name is required';
             isValid = false;
         }
 
-        if (!formData.username) {
-            newErrors.username = 'Username is required';
+        if (!formData.last_name) {
+            newErrors.last_name = 'Last name is required';
             isValid = false;
         }
 
@@ -47,6 +56,11 @@ const Signup = () => {
             isValid = false;
         }
 
+        if (!formData.phone) {
+            newErrors.phone = 'Phone number is required';
+            isValid = false;
+        }
+
         if (!formData.password) {
             newErrors.password = 'Password is required';
             isValid = false;
@@ -55,16 +69,34 @@ const Signup = () => {
             isValid = false;
         }
 
-        if (!formData.dateOfBirth) {
-            newErrors.dateOfBirth = 'Date of birth is required';
+        if (!formData.level) {
+            newErrors.level = 'Level is required';
+            isValid = false;
+        }
+
+        if (!formData.goals) {
+            newErrors.goals = 'Goals are required';
             isValid = false;
         }
 
         setErrors(newErrors);
 
-        if (isValid) {
-            // TODO: Implement signup logic
-            console.log('Signup form submitted:', formData);
+        handleSignup(formData);
+    };
+
+    const handleSignup = async (formData) => {
+        try {
+            const response = await axiosClient.post('/api/signup', formData);
+            console.log('Signup successful:', response.data);
+            navigate('/dasboard');
+        } catch (error) {
+            if (error.response) {
+                console.error('Error signing up:', error.response.data.message);
+                toast.error(`Error signing up: ${error.response.data.message}`);
+            } else {
+                console.error('Error:', error.message);
+                toast.error(`Netowrk Error: ${error.message}`);
+            }
         }
     };
 
@@ -81,20 +113,20 @@ const Signup = () => {
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <FormInput
-                        label="Full Name"
+                        label="First Name"
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="first_name"
+                        value={formData.first_name}
                         onChange={handleChange}
-                        error={errors.name}
+                        error={errors.first_name}
                     />
                     <FormInput
-                        label="Username"
+                        label="Last Name"
                         type="text"
-                        name="username"
-                        value={formData.username}
+                        name="last_name"
+                        value={formData.last_name}
                         onChange={handleChange}
-                        error={errors.username}
+                        error={errors.last_name}
                     />
                     <FormInput
                         label="Email Address"
@@ -105,6 +137,14 @@ const Signup = () => {
                         error={errors.email}
                     />
                     <FormInput
+                        label="Phone Number"
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        error={errors.phone}
+                    />
+                    <FormInput
                         label="Password"
                         type="password"
                         name="password"
@@ -113,12 +153,20 @@ const Signup = () => {
                         error={errors.password}
                     />
                     <FormInput
-                        label="Date of Birth"
-                        type="date"
-                        name="dateOfBirth"
-                        value={formData.dateOfBirth}
+                        label="Level"
+                        type="text"
+                        name="level"
+                        value={formData.level}
                         onChange={handleChange}
-                        error={errors.dateOfBirth}
+                        error={errors.level}
+                    />
+                    <FormInput
+                        label="Goals"
+                        type="text"
+                        name="goals"
+                        value={formData.goals}
+                        onChange={handleChange}
+                        error={errors.goals}
                     />
                     <div>
                         <motion.button
