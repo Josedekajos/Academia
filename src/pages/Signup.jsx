@@ -33,7 +33,7 @@ const Signup = () => {
         setErrors((prev) => ({ ...prev, [name]: '' }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let newErrors = { first_name: '', last_name: '', email: '', phone: '', password: '', level: '', goals: '' };
         let isValid = true;
@@ -81,13 +81,23 @@ const Signup = () => {
 
         setErrors(newErrors);
 
-        handleSignup(formData);
+        await handleSignup(formData);
     };
 
     const handleSignup = async (formData) => {
         try {
-            const response = await axiosClient.post('/api/signup', formData);
+            const response = await axiosClient.post('/auth/signup', formData);
             console.log('Signup successful:', response.data);
+            const { token, user } = response.data;
+
+            // Store the token and user information in local storage
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            // Display a success toast message
+            toast.success('Signup successful! Welcome to Academia!');
+
+            // Redirect the user to the dashboard page
             navigate('/dasboard');
         } catch (error) {
             if (error.response) {

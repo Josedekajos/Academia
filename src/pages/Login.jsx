@@ -57,9 +57,15 @@ const Login = () => {
                     password: formData.password
                 });
 
-                // Store user in localStorage
-                localStorage.setItem('user', JSON.stringify(response.data.user)); // Adjust according to your API response structure
+                const { token, user } = response.data;
+
+                // Store the token and user information in local storage
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
+
                 toast.success('Login successful!'); // Show success toast
+
+                navigate('/dashboard');
             } catch (err) {
                 const errorMessage = err.response?.data?.message || 'An error occurred';
                 setErrors({ email: errorMessage, password: errorMessage }); // Set error state

@@ -12,6 +12,7 @@ const NavHeader = ({ userInfo }) => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/dashboard">Dashboard</Link></li>
         <li><Link to="/about">About</Link></li>
+        <li><Link to="/groups">Groups</Link></li>
       </ul>
       <div className="user-profile">
         <span className="user-name">{userInfo.name}</span>
