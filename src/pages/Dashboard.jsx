@@ -4,7 +4,7 @@ import './Dashboard.css';
 const Dashboard = () => {
   const mockData = {
     user: {
-      name: 'John Doe',
+      name: 'Imele Jose',
       avatar: '👤',
       groupsCount: 5
     },
@@ -32,13 +32,35 @@ const Dashboard = () => {
       ]
     }
   };
+/*
+
+
+  const [chats, setChats] = useState([
+    { id: 1, name: 'Math Study Group', lastMessage: 'Can someone explain question 5?', time: '10m ago' },
+    { id: 2, name: 'Physics Group', lastMessage: 'Don\'t forget about the quiz tomorrow!', time: '1h ago' },
+    { id: 3, name: 'Chemistry Study', lastMessage: 'Meeting at 5 PM, don\'t be late!', time: '2h ago' }
+  ]);
+
+  const [activeChatId, setActiveChatId] = useState(null);
+
+  const addGroup = () => {
+    const newGroup = {
+      id: groups.length + 1,
+      name: `New Study Group ${groups.length + 1}`,
+      members: 1
+    };
+    setGroups([...groups, newGroup]);
+    setUser({ ...user, groupsCount: user.groupsCount + 1 });
+  };
+*/
+
 
   return (
     <div className="dashboard">
       <NavHeader userInfo={mockData.user} />
       <div className="dashboard-content">
         <div className="dashboard-header">
-          <h1>Welcome back, {mockData.user.name}</h1>
+          <p1>Welcome back, {mockData.user.name}</p1>
           <div className="stats">
             <div className="stat-item">
               <span className="stat-number">{mockData.user.groupsCount}</span>

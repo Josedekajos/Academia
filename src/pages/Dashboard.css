@@ -1,6 +1,7 @@
+
 .dashboard {
   min-height: 100vh;
-  background-color: #f5f6f8;
+  background-color: #8e42ac;
 }
 
 .dashboard-content {
@@ -14,12 +15,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+
+
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  
 }
 
 section {
@@ -56,6 +60,7 @@ section {
 .task-item.completed {
   color: #666;
   text-decoration: line-through;
+  
 }
 
 .stats {
@@ -70,10 +75,22 @@ section {
 .stat-number {
   font-size: 2rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: #f3e9f4;
 }
 
 .stat-label {
-  color: #666;
+  color: #fffbfb;
   font-size: 0.9rem;
 }
+/*
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .chat-section {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+  }
+}*/
