@@ -55,13 +55,18 @@ router.post('/signup', async (req, res) => {
         db.query(
             'INSERT INTO users (first_name, last_name, email, phone, password, level, goals) VALUES (?, ?, ?, ?, ?, ?, ?)',
             [first_name, last_name, email, phone, hashedPassword, level, goals],
+
             (err, results) => {
                 if (err) return res.status(500).json(err);
 
-                const newUser = { id: results.insertId, first_name, last_name, email, phone, level, goals };
-                const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+               try {
+                   const newUser = { id: results.insertId, first_name, last_name, email, phone, level, goals };
+                   const token = jwt.sign({ id: newUser.id }, "Secret value", { expiresIn: '1h' });
 
-                return res.status(201).json({ token, user: newUser });
+                   return res.status(201).json({ token, user: newUser });
+               } catch (e) {
+                   console.log(e);
+               }
             }
         );
     });

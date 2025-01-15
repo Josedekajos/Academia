@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavHeader.css';
+import PropTypes from 'prop-types';
 
 const NavHeader = ({ userInfo }) => {
   return (
@@ -12,7 +12,6 @@ const NavHeader = ({ userInfo }) => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/dashboard">Dashboard</Link></li>
         <li><Link to="/about">About</Link></li>
-        <li><Link to="/groups">Groups</Link></li>
       </ul>
       <div className="user-profile">
         <span className="user-name">{userInfo.name}</span>
@@ -20,6 +19,14 @@ const NavHeader = ({ userInfo }) => {
       </div>
     </nav>
   );
+};
+
+
+NavHeader.propTypes = {
+  userInfo: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default NavHeader;

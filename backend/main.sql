@@ -6,8 +6,8 @@ USE studyconnect;
 
 CREATE TABLE studyconnect.users (
     id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL UNIQUE,
-    last_name VARCHAR(255) NOT NULL UNIQUE,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255),
     password VARCHAR(255) NOT NULL,
@@ -17,11 +17,11 @@ CREATE TABLE studyconnect.users (
 );
 
 CREATE TABLE studyconnect.groups (
-    id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-	members INT DEFAULT 0,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+     id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     name VARCHAR(255) NOT NULL,
+     members INT DEFAULT 0,
+     description TEXT,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE studyconnect.notes (
@@ -31,7 +31,7 @@ CREATE TABLE studyconnect.notes (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (user_id) REFERENCES studyconnect.users(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES studyconnect.users(id) ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES studyconnect.groups(id) ON DELETE SET NULL
 );
 
@@ -45,22 +45,22 @@ CREATE TABLE studyconnect.group_members (
 );
 
 CREATE TABLE studyconnect.messages (
-    id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    group_id INT UNSIGNED NOT NULL,
-    user_id INT UNSIGNED NOT NULL,
-    content TEXT NOT NULL,
-    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (group_id) REFERENCES studyconnect.groups(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   group_id INT UNSIGNED NOT NULL,
+   user_id INT UNSIGNED NOT NULL,
+   content TEXT NOT NULL,
+   sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (group_id) REFERENCES studyconnect.groups(id) ON DELETE CASCADE,
+   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE studyconnect.study_sessions (
-    id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    group_id INT UNSIGNED NOT NULL,
-    topic VARCHAR(255) NOT NULL,
-    scheduled_at TIMESTAMP NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (group_id) REFERENCES studyconnect.groups(id) ON DELETE CASCADE
+     id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     group_id INT UNSIGNED NOT NULL,
+     topic VARCHAR(255) NOT NULL,
+     scheduled_at TIMESTAMP NOT NULL,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     FOREIGN KEY (group_id) REFERENCES studyconnect.groups(id) ON DELETE CASCADE
 );
 
 INSERT INTO studyconnect.groups (name, members, description) VALUES
@@ -70,9 +70,7 @@ INSERT INTO studyconnect.groups (name, members, description) VALUES
 ('Engineering Basics', 2, 'general engineering');
 
 INSERT INTO studyconnect.users (first_name, last_name, email, phone,  password, level, goals) VALUES
-('funwi1', 'kelsea1', 'user1@example.com', '653847697',  'hashed_password1', '200', 'build something'),
-('funwi2', 'kelsea2', 'user2@example.com', '653847697', 'hashed_password2', '300', 'eat something'),
-('funwi3', 'kelsea3', 'user3@example.com', '653847697', 'hashed_password3', '400', 'shit something');
+('funwi1', 'kelsea1', 'user1@example.com', '653847697',  'hashed_password1', '200', 'build something');
 
 INSERT INTO studyconnect.notes (user_id, group_id, title, content) VALUES
 (1, 1, 'Git Basics', 'This note covers the basics of Git.'),
@@ -87,11 +85,6 @@ INSERT INTO studyconnect.group_members (group_id, user_id) VALUES
 (1, 1);
 
 INSERT INTO studyconnect.messages (group_id, user_id, content) VALUES
-(1, 1, 'Let\'s discuss Git commands.'),
-(2, 2, 'What tools do you use for development?'),
-(3, 3, 'I have a question about system design.');
-
-INSERT INTO studyconnect.sudy_sessions (group_id, topic, scheduled_at) VALUES
-(1, 'Git Workflow', '2024-12-01 10:00:00'),
-(2, 'Development Tools Overview', '2024-12-02 11:00:00'),
-(3, 'System Analysis Techniques', '2024-12-03 12:00:00');
+(1, 1, "Let's discuss Git commands."),
+(2, 2, "What tools do you use for development?"),
+(3, 3, "I have a question about system design.");
