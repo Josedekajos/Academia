@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {motion} from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import FormInput from '../components/FormInput';
 import axiosClient from "../axios.js";
 import {useNavigate} from "react-router-dom";
@@ -98,7 +98,7 @@ const Signup = () => {
             toast.success('Signup successful! Welcome to Academia!');
 
             // Redirect the user to the dashboard page
-            navigate('/dashboard');
+            navigate('/dasboard');
         } catch (error) {
             if (error.response) {
                 console.error('Error signing up:', error.response.data.message);
