@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './NavHeader.css';
 
 const NavHeader = ({ userInfo }) => {
@@ -33,7 +33,11 @@ const NavHeader = ({ userInfo }) => {
   );
 };
 
-export default NavHeader;
+NavHeader.propTypes = {
+  userInfo: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
-/*
-*/
+export default NavHeader;
