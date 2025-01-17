@@ -29,6 +29,6 @@ jobs:
 
       # Step 4: Run Vitest tests
       - name: Run Vitest tests
-        run: npm run test -- --ci --coverage  # Run Vitest in CI mode with coverage
+        run: npm test --coverage  # Run Vitest in CI mode with coverage
         env:
           CI: true  # Set CI environment variable to disable interactive mode in Vitest
