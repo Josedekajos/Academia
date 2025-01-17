@@ -28,7 +28,7 @@
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.2",
     "rollup": "^4.30.1",
-    "shadcn": "^2.1.8",
+    "shadcn": "^1.0.0",
     "shadcn-ui": "^0.9.4",
     "study-connect": "file:",
     "tailwind-merge": "^2.6.0",
