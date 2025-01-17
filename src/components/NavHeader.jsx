@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './NavHeader.css';
-import React from 'react';
 
 const NavHeader = ({ userInfo }) => {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ const NavHeader = ({ userInfo }) => {
         <li><Link to="/about">About</Link></li>
         <li>
           <button className="chat-button" onClick={handleChatClick}>
-            Chat
+            ChatHe
           </button>
         </li>
         <li><Link to="/groups">Groups</Link></li>
