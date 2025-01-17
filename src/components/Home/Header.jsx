@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Header = () => {
@@ -6,10 +6,10 @@ const Header = () => {
 
     return (
         <header className="bg-white shadow-md">
-            <nav className="container mx-auto px-6 py-3">
-                <div className="flex justify-between items-center">
+            <nav className="container px-6 py-3 mx-auto">
+                <div className="flex items-center justify-between">
                     <div className="text-2xl font-bold text-purple-600">Academia</div>
-                    <div className="hidden md:flex space-x-4">
+                    <div className="hidden space-x-4 md:flex">
                         <a href="#features" className="text-gray-800 hover:text-purple-600">Features</a>
                         <a href="#testimonials" className="text-gray-800 hover:text-purple-600">Testimonials</a>
                         <a href="#pricing" className="text-gray-800 hover:text-purple-600">Pricing</a>
@@ -29,7 +29,7 @@ const Header = () => {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="md:hidden bg-white shadow-md"
+                    className="bg-white shadow-md md:hidden"
                 >
                     <a href="#features" className="block px-4 py-2 text-gray-800 hover:bg-purple-100">Features</a>
                     <a href="#testimonials" className="block px-4 py-2 text-gray-800 hover:bg-purple-100">Testimonials</a>

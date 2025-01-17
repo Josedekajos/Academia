@@ -1,16 +1,14 @@
-import React from 'react';
-
 const Footer = () => {
     return (
-        <footer className="bg-gray-800 text-white py-8">
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer className="py-8 text-white bg-gray-800">
+            <div className="container px-4 mx-auto">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                     <div>
-                        <h3 className="text-2xl font-bold mb-4">Academia</h3>
+                        <h3 className="mb-4 text-2xl font-bold">Academia</h3>
                         <p className="text-sm">Empowering students to achieve academic excellence through collaborative learning and expert guidance.</p>
                     </div>
                     <div>
-                        <h4 className="text-lg font-semibold mb-2">Quick Links</h4>
+                        <h4 className="mb-2 text-lg font-semibold">Quick Links</h4>
                         <ul className="space-y-2">
                             <li><a href="#features" className="hover:text-purple-300">Features</a></li>
                             <li><a href="#testimonials" className="hover:text-purple-300">Testimonials</a></li>
@@ -19,7 +17,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-lg font-semibold mb-2">Resources</h4>
+                        <h4 className="mb-2 text-lg font-semibold">Resources</h4>
                         <ul className="space-y-2">
                             <li><a href="#" className="hover:text-purple-300">Blog</a></li>
                             <li><a href="#" className="hover:text-purple-300">Help Center</a></li>
@@ -28,7 +26,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-lg font-semibold mb-2">Connect With Us</h4>
+                        <h4 className="mb-2 text-lg font-semibold">Connect With Us</h4>
                         <div className="flex space-x-4">
                             <a href="#" className="hover:text-purple-300">
                                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +46,7 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-8 pt-8 border-t border-gray-700 text-center">
+                <div className="pt-8 mt-8 text-center border-t border-gray-700">
                     <p className="text-sm">&copy; {new Date().getFullYear()} Academia. All rights reserved.</p>
                 </div>
             </div>

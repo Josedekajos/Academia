@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Book, Activity, Plus, ArrowRight } from 'lucide-react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import axiosClient from "../axios.js";
 
@@ -43,19 +42,19 @@ const StudyGroupsPage = () => {
     const GroupCard = ({ group }) => (
         <motion.div
             whileHover={{ scale: 1.02 }}
-            className="bg-white rounded-lg shadow-lg p-6 mb-4 cursor-pointer"
+            className="p-6 mb-4 bg-white rounded-lg shadow-lg cursor-pointer"
             onClick={() => setSelectedGroup(group)}
         >
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-blue-600">{group.name}</h3>
-                <span className="text-purple-500 flex items-center">
+                <span className="flex items-center text-purple-500">
                     <Users className="w-4 h-4 mr-1" />
                     {group.members.length} members
                 </span>
             </div>
-            <p className="text-gray-600 mb-4">{group.description}</p>
+            <p className="mb-4 text-gray-600">{group.description}</p>
             <button
-                className="bg-purple-500 text-white px-4 py-2 rounded-full hover:bg-purple-600 transition-colors flex items-center"
+                className="flex items-center px-4 py-2 text-white transition-colors bg-purple-500 rounded-full hover:bg-purple-600"
             >
                 <Plus className="w-4 h-4 mr-2" />
                 Join Group
@@ -67,9 +66,9 @@ const StudyGroupsPage = () => {
         <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-white rounded-lg shadow-lg p-6"
+            className="p-6 bg-white rounded-lg shadow-lg"
         >
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-blue-600">{group.name}</h2>
                 <button
                     onClick={() => setSelectedGroup(null)}
@@ -79,17 +78,17 @@ const StudyGroupsPage = () => {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {/* Members Section */}
-                <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="p-4 rounded-lg bg-blue-50">
                     <div className="flex items-center mb-4">
-                        <Users className="w-5 h-5 text-blue-600 mr-2" />
+                        <Users className="w-5 h-5 mr-2 text-blue-600" />
                         <h3 className="text-lg font-semibold">Members</h3>
                     </div>
                     <ul className="space-y-2">
                         {group.members.map((member, index) => (
                             <li key={index} className="flex items-center">
-                                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
+                                <span className="w-2 h-2 mr-2 bg-blue-400 rounded-full"></span>
                                 {member}
                             </li>
                         ))}
@@ -97,15 +96,15 @@ const StudyGroupsPage = () => {
                 </div>
 
                 {/* Resources Section */}
-                <div className="bg-purple-50 p-4 rounded-lg">
+                <div className="p-4 rounded-lg bg-purple-50">
                     <div className="flex items-center mb-4">
-                        <Book className="w-5 h-5 text-purple-600 mr-2" />
+                        <Book className="w-5 h-5 mr-2 text-purple-600" />
                         <h3 className="text-lg font-semibold">Resources</h3>
                     </div>
                     <ul className="space-y-2">
                         {group.resources.map((resource, index) => (
                             <li key={index} className="flex items-center">
-                                <ArrowRight className="w-4 h-4 text-purple-400 mr-2" />
+                                <ArrowRight className="w-4 h-4 mr-2 text-purple-400" />
                                 {resource}
                             </li>
                         ))}
@@ -113,15 +112,15 @@ const StudyGroupsPage = () => {
                 </div>
 
                 {/* Activities Section */}
-                <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="p-4 rounded-lg bg-blue-50">
                     <div className="flex items-center mb-4">
-                        <Activity className="w-5 h-5 text-blue-600 mr-2" />
+                        <Activity className="w-5 h-5 mr-2 text-blue-600" />
                         <h3 className="text-lg font-semibold">Activities</h3>
                     </div>
                     <ul className="space-y-2">
                         {group.activities.map((activity, index) => (
                             <li key={index} className="flex items-center">
-                                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
+                                <span className="w-2 h-2 mr-2 bg-blue-400 rounded-full"></span>
                                 {activity}
                             </li>
                         ))}
@@ -155,51 +154,51 @@ const StudyGroupsPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold text-blue-700 mb-8">Study Groups</h1>
+        <div className="container px-4 py-8 mx-auto">
+            <h1 className="mb-8 text-3xl font-bold text-blue-700">Study Groups</h1>
 
             <input
                 type="text"
                 placeholder="Search Groups..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border p-2 mb-4 w-full rounded"
+                className="w-full p-2 mb-4 border rounded"
             />
 
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg mb-4 hover:bg-green-600"
+                className="px-4 py-2 mb-4 text-white bg-green-500 rounded-lg hover:bg-green-600"
             >
                 Create Group
             </button>
 
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg p-6">
-                        <h2 className="text-xl font-bold mb-4">Create New Group</h2>
+                    <div className="p-6 bg-white rounded-lg">
+                        <h2 className="mb-4 text-xl font-bold">Create New Group</h2>
                         <input
                             type="text"
                             placeholder="Group Name"
                             value={newGroupData.name}
                             onChange={(e) => setNewGroupData({ ...newGroupData, name: e.target.value })}
-                            className="border p-2 mb-4 w-full"
+                            className="w-full p-2 mb-4 border"
                         />
                         <textarea
                             placeholder="Group Description"
                             value={newGroupData.description}
                             onChange={(e) => setNewGroupData({ ...newGroupData, description: e.target.value })}
-                            className="border p-2 mb-4 w-full"
+                            className="w-full p-2 mb-4 border"
                         />
                         {/* Add more inputs for members, resources, and activities if necessary */}
                         <button
                             onClick={handleCreateGroup}
-                            className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600"
+                            className="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600"
                         >
                             Create Group
                         </button>
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-2 hover:bg-gray-400"
+                            className="px-4 py-2 ml-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400"
                         >
                             Cancel
                         </button>
@@ -208,7 +207,7 @@ const StudyGroupsPage = () => {
             )}
 
             {!selectedGroup ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {filteredGroups.map(group => (
                         <GroupCard key={group.id} group={group} />
                     ))}
