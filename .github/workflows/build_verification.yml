@@ -1,0 +1,33 @@
+name: Build Verification
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Replace with your desired Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Check build status
+        run: |
+          if [ $? -ne 0 ]; then
+            echo "Build failed. Creating 'test' branch."
+            git checkout -b test
+            git push origin test
+            echo "Code moved to 'test' branch since it could not build."
+          fi
