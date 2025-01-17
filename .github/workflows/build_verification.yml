@@ -22,12 +22,14 @@ jobs:
 
       - name: Build application
         run: npm run build
+        continue-on-error: true # Allow the workflow to continue even if the build fails
 
-      - name: Check build status
+      - name: Create issue if build fails
+        if: failure() # This runs only if the previous step fails
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ $? -ne 0 ]; then
-            echo "Build failed. Creating 'test' branch."
-            git checkout -b test
-            git push origin test
-            echo "Code moved to 'test' branch since it could not build."
-          fi
+          gh issue create \
+            --title "Build Failed on Push to Main" \
+            --body "The build process failed during the recent push to the **main** branch. Please check the build logs and address the issue." \
+            --label "bug"
