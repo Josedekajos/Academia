@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { test, expect } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';  // Import BrowserRouter
 import NavHeader from "../components/NavHeader";
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
 
 test('renders NavHeader component with correct content', () => {
   // Mock the userInfo prop to pass to the NavHeader component
