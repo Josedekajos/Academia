@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: academia-web
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/sites-enabled/nginx.conf:ro
+      - ./src:/app/src:ro
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:3000}
