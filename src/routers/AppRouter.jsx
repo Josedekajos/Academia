@@ -7,7 +7,8 @@ import Chat from '../pages/Chat'; // Ensure the path is correct based on the fil
 import Dashboard from '../pages/Dashboard';
 import Signup from '../pages/Signup'; // Ensure the correct path
 import StudyGroupsPage from '../pages/StudyGroupPage';
-import MainLayout from "../layouts/MainLayout.jsx"; // Correct path for StudyGroupsPage
+import MainLayout from "../layouts/MainLayout.jsx";
+import GroupInformationPage from "../pages/GroupInformationPage.jsx"; // Correct path for StudyGroupsPage
 
 const AppRouter = () => {
   return (
@@ -21,6 +22,7 @@ const AppRouter = () => {
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/groups" element={<StudyGroupsPage />} />
+          <Route path="/groups/:groupId" element={<GroupInformationPage />} />
           <Route path="/chat" element={<Chat />} />
         </Route>
         <Route path="*" element={<NotFound />} />
