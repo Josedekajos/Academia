@@ -3,7 +3,6 @@ import {motion} from 'framer-motion';
 import {Activity, ArrowRight, Book, Plus, Users} from 'lucide-react';
 import {toast} from 'react-toastify';
 import axiosClient from "../axios.js";
-import PropTypes from 'prop-types';
 
 const StudyGroupsPage = () => {
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -17,15 +16,36 @@ const StudyGroupsPage = () => {
     });
     const [searchQuery, setSearchQuery] = useState('');
     const [groups, setGroups] = useState([]);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5
+            }
+        }
+    };
+
     const fetchGroups = async () => {
         const fetchedGroups = await axiosClient.get('/groups');
         setGroups(fetchedGroups.data);
-    }
-
+    };
 
     useEffect(() => {
         fetchGroups();
-    }, [])
+    }, []);
 
     const filteredGroups = groups.filter(group =>
         group.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -34,92 +54,86 @@ const StudyGroupsPage = () => {
     const GroupCard = ({ group }) => (
         <motion.div
             whileHover={{ scale: 1.02 }}
-            className="p-6 mb-4 bg-white rounded-lg shadow-lg cursor-pointer"
+            className="p-6 bg-slate-700/30 backdrop-blur-lg rounded-xl shadow-xl cursor-pointer"
             onClick={() => setSelectedGroup(group)}
         >
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-blue-600">{group.name}</h3>
-                <span className="flex items-center text-purple-500">
+                <h3 className="text-xl font-bold text-slate-100">{group.name}</h3>
+                <span className="flex items-center text-slate-300">
                     <Users className="w-4 h-4 mr-1" />
                     {group.members.length} members
                 </span>
             </div>
-            <p className="mb-4 text-gray-600">{group.description}</p>
-            <button
-                className="flex items-center px-4 py-2 text-white transition-colors bg-purple-500 rounded-full hover:bg-purple-600"
+            <p className="mb-4 text-slate-300">{group.description}</p>
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center px-4 py-2 text-slate-800 bg-slate-100 rounded-full hover:bg-slate-200 transition duration-300 shadow-lg font-bold"
             >
                 <Plus className="w-4 h-4 mr-2" />
                 Join Group
-            </button>
+            </motion.button>
         </motion.div>
     );
-
-    GroupCard.propTypes = {
-        group: {
-            members: PropTypes.array,
-            description: PropTypes.string,
-        }
-    };
 
     const GroupDetails = ({ group }) => (
         <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="p-6 bg-white rounded-lg shadow-lg"
+            className="p-6 bg-slate-700/30 backdrop-blur-lg rounded-xl shadow-xl"
         >
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-blue-600">{group.name}</h2>
-                <button
+                <h2 className="text-2xl font-bold text-slate-100">{group.name}</h2>
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedGroup(null)}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="px-4 py-2 text-slate-800 bg-slate-100 rounded-full hover:bg-slate-200 transition duration-300 shadow-lg font-bold"
                 >
                     Back to Groups
-                </button>
+                </motion.button>
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {/* Members Section */}
-                <div className="p-4 rounded-lg bg-blue-50">
+                <div className="p-4 rounded-xl bg-slate-600/30">
                     <div className="flex items-center mb-4">
-                        <Users className="w-5 h-5 mr-2 text-blue-600" />
-                        <h3 className="text-lg font-semibold">Members</h3>
+                        <Users className="w-5 h-5 mr-2 text-slate-100" />
+                        <h3 className="text-lg font-semibold text-slate-100">Members</h3>
                     </div>
                     <ul className="space-y-2">
-                        {group.map((member, index) => (
-                            <li key={index} className="flex items-center">
-                                <span className="w-2 h-2 mr-2 bg-blue-400 rounded-full"></span>
+                        {group.members.map((member, index) => (
+                            <li key={index} className="flex items-center text-slate-300">
+                                <span className="w-2 h-2 mr-2 bg-slate-400 rounded-full"></span>
                                 {member}
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                {/* Resources Section */}
-                <div className="p-4 rounded-lg bg-purple-50">
+                <div className="p-4 rounded-xl bg-slate-600/30">
                     <div className="flex items-center mb-4">
-                        <Book className="w-5 h-5 mr-2 text-purple-600" />
-                        <h3 className="text-lg font-semibold">Resources</h3>
+                        <Book className="w-5 h-5 mr-2 text-slate-100" />
+                        <h3 className="text-lg font-semibold text-slate-100">Resources</h3>
                     </div>
                     <ul className="space-y-2">
                         {group.resources.map((resource, index) => (
-                            <li key={index} className="flex items-center">
-                                <ArrowRight className="w-4 h-4 mr-2 text-purple-400" />
+                            <li key={index} className="flex items-center text-slate-300">
+                                <ArrowRight className="w-4 h-4 mr-2 text-slate-400" />
                                 {resource}
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                {/* Activities Section */}
-                <div className="p-4 rounded-lg bg-blue-50">
+                <div className="p-4 rounded-xl bg-slate-600/30">
                     <div className="flex items-center mb-4">
-                        <Activity className="w-5 h-5 mr-2 text-blue-600" />
-                        <h3 className="text-lg font-semibold">Activities</h3>
+                        <Activity className="w-5 h-5 mr-2 text-slate-100" />
+                        <h3 className="text-lg font-semibold text-slate-100">Activities</h3>
                     </div>
                     <ul className="space-y-2">
                         {group.activities.map((activity, index) => (
-                            <li key={index} className="flex items-center">
-                                <span className="w-2 h-2 mr-2 bg-blue-400 rounded-full"></span>
+                            <li key={index} className="flex items-center text-slate-300">
+                                <span className="w-2 h-2 mr-2 bg-slate-400 rounded-full"></span>
                                 {activity}
                             </li>
                         ))}
@@ -129,101 +143,118 @@ const StudyGroupsPage = () => {
         </motion.div>
     );
 
-    GroupDetails.propTypes = {
-        group: {
-            members: PropTypes.array,
-
-        }
-      };
-
     const handleCreateGroup = async () => {
         try {
             const response = await axiosClient.post('/groups', newGroupData);
             if (response.data.success) {
-                console.log("Group created successfully!");
+                toast.success('Group created successfully!');
+                setIsModalOpen(false);
+                setNewGroupData({
+                    name: '',
+                    description: '',
+                    members: [],
+                    resources: [],
+                    activities: [],
+                });
+                fetchGroups();
             }
-            toast.success('Group created successfully!');
-            setIsModalOpen(false);
-
-            setNewGroupData({
-                name: '',
-                description: '',
-                members: [],
-                resources: [],
-                activities: [],
-            });
-            
         } catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message);
-            } else {
-                toast.error('An unexpected error occurred.');
-            }
+            toast.error(error.response?.data?.message || 'An unexpected error occurred.');
         }
     };
 
     return (
-        <div className="container px-4 py-8 mx-auto">
-            <h1 className="mb-8 text-3xl font-bold text-blue-700">Study Groups</h1>
-
-            <input
-                type="text"
-                placeholder="Search Groups..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-2 mb-4 border rounded"
-            />
-
-            <button
-                onClick={() => setIsModalOpen(true)}
-                className="px-4 py-2 mb-4 text-white bg-green-500 rounded-lg hover:bg-green-600"
+        <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 py-16 px-4">
+            <motion.div
+                className="max-w-6xl mx-auto"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
             >
-                Create Group
-            </button>
+                <motion.div
+                    variants={itemVariants}
+                    className="text-center mb-8"
+                >
+                    <h1 className="text-5xl md:text-6xl font-bold text-slate-100 mb-6">Study Groups</h1>
+                    <p className="text-xl text-slate-300">Connect and collaborate with your peers</p>
+                </motion.div>
 
-            {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="p-6 bg-white rounded-lg">
-                        <h2 className="mb-4 text-xl font-bold">Create New Group</h2>
+                <motion.div variants={itemVariants} className="mb-8">
+                    <div className="flex gap-4">
                         <input
                             type="text"
-                            placeholder="Group Name"
-                            value={newGroupData.name}
-                            onChange={(e) => setNewGroupData({ ...newGroupData, name: e.target.value })}
-                            className="w-full p-2 mb-4 border"
+                            placeholder="Search Groups..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="flex-grow bg-slate-600/30 text-slate-100 placeholder-slate-400 rounded-xl px-6 py-3 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
                         />
-                     d   <textarea
-                            placeholder="Group Description"
-                            value={newGroupData.description}
-                            onChange={(e) => setNewGroupData({ ...newGroupData, description: e.target.value })}
-                            className="w-full p-2 mb-4 border"
-                        />
-                        {/* Add more inputs for members, resources, and activities if necessary */}
-                        <button
-                            onClick={handleCreateGroup}
-                            className="px-4 py-2 text-white bg-purple-500 rounded-lg hover:bg-purple-600"
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-slate-100 text-slate-800 font-bold px-8 py-3 rounded-full hover:bg-slate-200 transition duration-300 shadow-lg"
                         >
                             Create Group
-                        </button>
-                        <button
-                            onClick={() => setIsModalOpen(false)}
-                            className="px-4 py-2 ml-2 text-black bg-gray-300 rounded-lg hover:bg-gray-400"
-                        >
-                            Cancel
-                        </button>
+                        </motion.button>
                     </div>
-                </div>
-            )}
+                </motion.div>
 
-            {!selectedGroup ? (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredGroups.map(group => (
-                        <GroupCard key={group.id} group={group} />
-                    ))}
-                </div>
-            ) : (
-                <GroupDetails group={selectedGroup} />
-            )}
+                {isModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="p-6 bg-slate-700 rounded-xl shadow-xl w-full max-w-md"
+                        >
+                            <h2 className="mb-4 text-xl font-bold text-slate-100">Create New Group</h2>
+                            <input
+                                type="text"
+                                placeholder="Group Name"
+                                value={newGroupData.name}
+                                onChange={(e) => setNewGroupData({ ...newGroupData, name: e.target.value })}
+                                className="w-full p-2 mb-4 bg-slate-600/30 text-slate-100 placeholder-slate-400 rounded-xl px-6 py-3 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+                            />
+                            <textarea
+                                placeholder="Group Description"
+                                value={newGroupData.description}
+                                onChange={(e) => setNewGroupData({ ...newGroupData, description: e.target.value })}
+                                className="w-full p-2 mb-4 bg-slate-600/30 text-slate-100 placeholder-slate-400 rounded-xl px-6 py-3 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50"
+                            />
+                            <div className="flex gap-4">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={handleCreateGroup}
+                                    className="flex-1 bg-slate-100 text-slate-800 font-bold py-3 rounded-full hover:bg-slate-200 transition duration-300 shadow-lg"
+                                >
+                                    Create Group
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="flex-1 bg-slate-600/50 text-slate-100 font-bold py-3 rounded-full hover:bg-slate-600/70 transition duration-300 shadow-lg"
+                                >
+                                    Cancel
+                                </motion.button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+
+                {!selectedGroup ? (
+                    <motion.div
+                        variants={itemVariants}
+                        className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                    >
+                        {filteredGroups.map(group => (
+                            <GroupCard key={group.id} group={group} />
+                        ))}
+                    </motion.div>
+                ) : (
+                    <GroupDetails group={selectedGroup} />
+                )}
+            </motion.div>
         </div>
     );
 };
