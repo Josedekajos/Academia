@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Book, Activity, Plus, ArrowRight } from 'lucide-react';
 import { toast } from 'react-toastify';
 import axiosClient from "../axios.js";
+import PropTypes from 'prop-types';
 
 const StudyGroupsPage = () => {
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -15,25 +16,16 @@ const StudyGroupsPage = () => {
         activities: [],
     });
     const [searchQuery, setSearchQuery] = useState('');
+    const [groups, setGroups] = useState([]);
+    const fetchGroups = async () => {
+        const fetchedGroups = await axiosClient.get('/groups');
+        setGroups(fetchedGroups.data);
+    }
 
-    // Sample data - in a real app this would come from an API
-    const groups = [
-        { id: 1, name: "Advanced Mathematics", description: "Group for advanced calculus and linear algebra discussions", members: ["Alice", "Bob", "Charlie"], resources: ["Calculus Textbook", "Practice Problems", "Study Guide"], activities: ["Weekly Problem Solving", "Monthly Mock Tests"] },
-        { id: 2, name: "Physics Study Circle", description: "Quantum mechanics and theoretical physics discussions", members: ["David", "Emma", "Frank"], resources: ["Physics Notes", "Video Lectures", "Lab Reports"], activities: ["Group Experiments", "Theory Discussions"] },
-        { id: 3, name: "Computer Science Hub", description: "Algorithm practice and programming concepts", members: ["George", "Hannah", "Ian"], resources: ["Coding Challenges", "Algorithm Guide", "Project Ideas"], activities: ["Code Reviews", "Hackathons"] },
-        { id: 4, name: "Chemistry Enthusiasts", description: "Discussing organic and inorganic chemistry", members: ["John", "Lucy", "Mike"], resources: ["Chemistry Books", "Lab Manuals"], activities: ["Lab Experiments", "Discussion Forums"] },
-        { id: 5, name: "Biology Study Group", description: "Exploring biology and environmental science", members: ["Sara", "Chris", "Nina"], resources: ["Biology Texts", "Research Papers"], activities: ["Field Studies", "Research Presentations"] },
-        { id: 6, name: "History Buffs", description: "Delving into historical events and discussions", members: ["Tom", "Judy", "Liam"], resources: ["Historical Documents", "Books"], activities: ["Documentaries", "Debates"] },
-        { id: 7, name: "Literature Lovers", description: "Reading and discussing classic and modern literature", members: ["Anna", "Dave", "Ella"], resources: ["Books", "Articles"], activities: ["Book Clubs", "Writing Workshops"] },
-        { id: 8, name: "Art and Design Club", description: "Exploring art techniques and design", members: ["Sam", "Olivia", "Ben"], resources: ["Art Supplies", "Tutorials"], activities: ["Workshops", "Exhibitions"] },
-        { id: 9, name: "Music Makers", description: "Creating and sharing music", members: ["Alex", "Jess", "Ravi"], resources: ["Instruments", "Music Software"], activities: ["Jam Sessions", "Concerts"] },
-        { id: 10, name: "Entrepreneurship Forum", description: "Discussing business ideas and startups", members: ["Max", "Sophia", "Leo"], resources: ["Business Books", "Case Studies"], activities: ["Pitch Nights", "Networking Events"] },
-        { id: 11, name: "Language Exchange", description: "Practicing multiple languages", members: ["Mia", "Noah", "Zoe"], resources: ["Language Apps", "Books"], activities: ["Conversation Exchanges", "Cultural Events"] },
-        { id: 12, name: "Tech Innovators", description: "Discussing the latest in technology", members: ["Ethan", "Ava", "Jackson"], resources: ["Tech Articles", "Webinars"], activities: ["Hackathons", "Tech Talks"] },
-        { id: 13, name: "Fitness Enthusiasts", description: "Sharing fitness tips and routines", members: ["Emma", "Oliver", "Isabella"], resources: ["Workout Plans", "Nutrition Guides"], activities: ["Group Workouts", "Health Challenges"] },
-        { id: 14, name: "Cooking Club", description: "Exploring new recipes and cooking techniques", members: ["Liam", "Sophie", "Evelyn"], resources: ["Cookbooks", "Videos"], activities: ["Cooking Classes", "Recipe Sharing"] },
-        { id: 15, name: "Travel Enthusiasts", description: "Sharing travel experiences and tips", members: ["Ella", "Henry", "Nora"], resources: ["Travel Guides", "Blogs"], activities: ["Travel Talks", "Photo Sharing"] },
-    ];
+
+    useEffect(() => {
+        fetchGroups();
+    }, [])
 
     const filteredGroups = groups.filter(group =>
         group.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -62,6 +54,15 @@ const StudyGroupsPage = () => {
         </motion.div>
     );
 
+    GroupCard.propTypes = {
+        group: {
+            members: PropTypes.array,
+        }
+    };
+      
+
+    
+
     const GroupDetails = ({ group }) => (
         <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -86,7 +87,7 @@ const StudyGroupsPage = () => {
                         <h3 className="text-lg font-semibold">Members</h3>
                     </div>
                     <ul className="space-y-2">
-                        {group.members.map((member, index) => (
+                        {group.map((member, index) => (
                             <li key={index} className="flex items-center">
                                 <span className="w-2 h-2 mr-2 bg-blue-400 rounded-full"></span>
                                 {member}
@@ -130,12 +131,22 @@ const StudyGroupsPage = () => {
         </motion.div>
     );
 
+    GroupDetails.propTypes = {
+        group: {
+            members: PropTypes.array,
+            
+        }
+      };
+
     const handleCreateGroup = async () => {
         try {
-            const response = await axiosClient.post('/api/groups', newGroupData);
+            const response = await axiosClient.post('/groups', newGroupData);
+            if (response.data.success) {
+                console.log("Group created successfully!");
+            }
             toast.success('Group created successfully!');
             setIsModalOpen(false);
-            // Optionally reset form data
+
             setNewGroupData({
                 name: '',
                 description: '',
@@ -143,7 +154,7 @@ const StudyGroupsPage = () => {
                 resources: [],
                 activities: [],
             });
-            // Optionally update groups list or fetch new data
+            
         } catch (error) {
             if (error.response) {
                 toast.error(error.response.data.message);
@@ -183,7 +194,7 @@ const StudyGroupsPage = () => {
                             onChange={(e) => setNewGroupData({ ...newGroupData, name: e.target.value })}
                             className="w-full p-2 mb-4 border"
                         />
-                        <textarea
+                     d   <textarea
                             placeholder="Group Description"
                             value={newGroupData.description}
                             onChange={(e) => setNewGroupData({ ...newGroupData, description: e.target.value })}

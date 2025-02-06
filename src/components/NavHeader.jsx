@@ -11,6 +11,11 @@ const NavHeader = ({ userInfo }) => {
     navigate('/Chat');
   };
 
+  const logOut = () => {
+    localStorage.clear();
+    navigate('/');
+  }
+
   return (
     <nav className="nav-header">
       <div className="nav-brand">
@@ -28,8 +33,9 @@ const NavHeader = ({ userInfo }) => {
         <li><Link to="/groups">Groups</Link></li>
       </ul>
       <div className="user-profile">
-        <span className="user-name">{userInfo.name}</span>
-        <span className="user-avatar">{userInfo.avatar}</span>
+        <span className="user-name">{ userInfo != null ? userInfo.first_name + " " + userInfo.last_name : "Kelsea"}</span>
+        <span className="user-avatar">{userInfo != null ? userInfo.avatar : ""}</span>
+        <button className='p-3 text-white bg-red-500 rounded-lg hover:text-opacity-65' onClick={() => logOut()}>Log out</button>
       </div>
     </nav>
   );
@@ -37,8 +43,13 @@ const NavHeader = ({ userInfo }) => {
 
 NavHeader.propTypes = {
   userInfo: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string,
+    level: PropTypes.string,
+    avatar: PropTypes.string,
   }).isRequired,
 };
 

@@ -24,15 +24,15 @@ function CreateGroup() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="header flex justify-between items-center mb-4">
+    <div className="container p-4 mx-auto">
+      <div className="flex items-center justify-between mb-4 header">
         <h1 className="text-2xl text-purple-700">Create Study Group</h1>
-        <button className="btn bg-purple-700 text-white py-2 px-4 rounded hover:bg-purple-900" onClick={() => setShowChat(false)}>+ Create Study Group</button>
+        <button className="px-4 py-2 text-white bg-purple-700 rounded btn hover:bg-purple-900" onClick={() => setShowChat(false)}>+ Create Study Group</button>
       </div>
 
       {!showChat ? (
-        <div className="modal-content bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl text-center text-purple-700 mb-4">Create Study Group</h2>
+        <div className="p-6 bg-white rounded-lg shadow-lg modal-content">
+          <h2 className="mb-4 text-xl text-center text-purple-700">Create Study Group</h2>
           <div className="mb-4">
             <label className="block text-gray-700">Group Name</label>
             <input
@@ -66,21 +66,21 @@ function CreateGroup() {
             </select>
           </div>
           <button
-            className="btn bg-purple-700 text-white py-2 px-4 rounded hover:bg-purple-900 w-full"
+            className="w-full px-4 py-2 text-white bg-purple-700 rounded btn hover:bg-purple-900"
             onClick={handleCreateGroup}
           >
             Create Group
           </button>
         </div>
       ) : (
-        <div className="chat-container bg-white p-6 rounded-lg shadow-lg">
-          <div className="chat-header bg-purple-700 text-white p-4 rounded-t-lg text-center">
+        <div className="p-6 bg-white rounded-lg shadow-lg chat-container">
+          <div className="p-4 text-center text-white bg-purple-700 rounded-t-lg chat-header">
             {groupName}
           </div>
-          <div className="chat-body bg-gray-100 p-4 h-64 overflow-y-auto" id="chat-body">
+          <div className="h-64 p-4 overflow-y-auto bg-gray-100 chat-body" id="chat-body">
             {/* Messages will appear here */}
           </div>
-          <div className="chat-input flex p-2 border-t border-gray-300">
+          <div className="flex p-2 border-t border-gray-300 chat-input">
             <input
               type="text"
               className="flex-1 p-2 border border-gray-300 rounded"
@@ -93,7 +93,7 @@ function CreateGroup() {
               }}
             />
             <button
-              className="bg-purple-700 text-white py-2 px-4 rounded ml-2"
+              className="px-4 py-2 ml-2 text-white bg-purple-700 rounded"
               onClick={() => {
                 const input = document.querySelector('.chat-input input');
                 sendMessage(input.value);

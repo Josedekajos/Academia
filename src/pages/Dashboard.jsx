@@ -1,91 +1,134 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import NavHeader from '../components/NavHeader';
 import './Dashboard.css';
+import axiosClient from '../axios';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const initialData = {
-    user: {
-      name: 'Imele Jose',
-      avatar: '👨‍🎓',
-      groupsCount: 5,
-    },
-    notifications: [
-      { id: 1, message: 'New message in Math Study Group', time: '2h ago' },
-      { id: 2, message: 'Physics Quiz tomorrow', time: '3h ago' },
-      { id: 3, message: 'Chemistry Group meeting at 5 PM', time: '5h ago' },
-      { id: 4, message: 'New study material uploaded', time: '1d ago' },
-      { id: 5, message: 'Biology Group invitation', time: '1d ago' },
-    ],
-    groups: [
-      { id: 1, name: 'Math Study Group', members: 12 },
-      { id: 2, name: 'Physics Group', members: 8 },
-      { id: 3, name: 'Chemistry Study', members: 15 },
-    ],
-    tasks: {
-      completed: [
-        { id: 1, title: 'Complete Math Assignment' },
-        { id: 2, title: 'Review Physics Notes' },
-      ],
-      uncompleted: [
-        { id: 1, title: 'Prepare for Biology Test' },
-        { id: 2, title: 'Submit Chemistry Lab Report' },
-        { id: 3, title: 'Group Project Meeting' },
-      ],
-    },
-  };
+ 
+  const navigate = useNavigate();
 
-  const [tasks, setTasks] = useState(initialData.tasks);
+  // State for dynamic data
+  const [notifications, setNotifications] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [tasks, setTasks] = useState({ completed: [], uncompleted: [] });
   const [newTask, setNewTask] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const handleAddTask = () => {
+  useEffect(() => {
+
+     // Retrieve user from localStorage
+    const storedUser = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    
+    if (!storedUser || !token) {
+      navigate('/');
+    }
+
+    console.log(storedUser);
+
+      // Check if storedUser is valid before parsing
+    const user = storedUser ? JSON.parse(storedUser) : null;
+
+    setUser(user);
+
+    const fetchData = async () => {
+      try {
+        const [notifRes, groupsRes, tasksRes] = await Promise.all([
+          axiosClient.get('/notifications'),
+          axiosClient.get('/groups'),
+          axiosClient.get('/tasks'),
+        ]);
+        
+        setNotifications(notifRes.data);
+        setGroups(groupsRes.data);
+        setTasks(tasksRes.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
+
+  // Function to add a new task
+  const handleAddTask = async () => {
     if (newTask.trim()) {
-      const newTaskObj = { id: Date.now(), title: newTask };
-      setTasks(prev => ({
-        ...prev,
-        uncompleted: [...prev.uncompleted, newTaskObj],
-      }));
-      setNewTask('');
+      const newTaskObj = { title: newTask };
+
+      try {
+        const response = await fetch('/api/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newTaskObj),
+        });
+
+        if (!response.ok) throw new Error('Failed to add task');
+
+        const addedTask = await response.json();
+        setTasks(prev => ({
+          ...prev,
+          uncompleted: [...prev.uncompleted, addedTask],
+        }));
+
+        setNewTask('');
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
-  const handleTaskCheck = (taskId, isCompleted) => {
-    if (isCompleted) {
+  // Function to toggle task completion
+  const handleTaskCheck = async (taskId, isCompleted) => {
+    try {
+      const response = await fetch(`/api/tasks/${taskId}/toggle`, { method: 'PATCH' });
+
+      if (!response.ok) throw new Error('Failed to update task');
+
       setTasks(prev => {
-        const taskToMove = prev.completed.find(task => task.id === taskId);
+        const taskToMove = isCompleted
+          ? prev.completed.find(task => task.id === taskId)
+          : prev.uncompleted.find(task => task.id === taskId);
+
         return {
           ...prev,
-          completed: prev.completed.filter(task => task.id !== taskId),
-          uncompleted: [...prev.uncompleted, taskToMove],
+          completed: isCompleted
+            ? prev.completed.filter(task => task.id !== taskId)
+            : [...prev.completed, taskToMove],
+          uncompleted: isCompleted
+            ? [...prev.uncompleted, taskToMove]
+            : prev.uncompleted.filter(task => task.id !== taskId),
         };
       });
-    } else {
-      setTasks(prev => {
-        const taskToMove = prev.uncompleted.find(task => task.id === taskId);
-        return {
-          ...prev,
-          uncompleted: prev.uncompleted.filter(task => task.id !== taskId),
-          completed: [...prev.completed, taskToMove],
-        };
-      });
+    } catch (err) {
+      console.error(err);
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="dashboard">
-      <NavHeader userInfo={initialData.user} />
+      <NavHeader userInfo={user} />
       <div className="dashboard-content">
         <div className="dashboard-header">
-          <h1>Welcome back, {initialData.user.name}!</h1>
+          <h1>Welcome back, {user?.first_name + ' ' + user?.last_name || 'User'}!</h1>
           <div className="groups-count">
-            <span>{initialData.user.groupsCount} Groups</span>
+            <span>{groups.length} Groups</span>
           </div>
         </div>
 
         <div className="dashboard-row">
+          {/* Notifications */}
           <section className="notifications-section">
             <h2>Recent Notifications</h2>
             <div className="notifications-list">
-              {initialData.notifications.map(notif => (
+              {notifications.map(notif => (
                 <div key={notif.id} className="notification-item">
                   <p>{notif.message}</p>
                   <span>{notif.time}</span>
@@ -94,10 +137,11 @@ const Dashboard = () => {
             </div>
           </section>
 
+          {/* Groups */}
           <section className="groups-section">
             <h2>Your Groups</h2>
             <div className="groups-list">
-              {initialData.groups.map(group => (
+              {groups.map(group => (
                 <div key={group.id} className="group-item">
                   <h3>{group.name}</h3>
                   <span>{group.members} members</span>
@@ -106,6 +150,7 @@ const Dashboard = () => {
             </div>
           </section>
 
+          {/* Tasks */}
           <section className="tasks-section">
             <h2>Your Tasks</h2>
             <div className="task-input">
@@ -120,7 +165,7 @@ const Dashboard = () => {
             <div className="tasks-container">
               <div className="completed-tasks">
                 <h3>Completed</h3>
-                {tasks.completed.map(task => (
+                {tasks.map(task => (
                   <div key={task.id} className="task-item completed">
                     <input
                       type="checkbox"
@@ -133,7 +178,7 @@ const Dashboard = () => {
               </div>
               <div className="uncompleted-tasks">
                 <h3>To Do</h3>
-                {tasks.uncompleted.map(task => (
+                {tasks.map(task => (
                   <div key={task.id} className="task-item">
                     <input
                       type="checkbox"
