@@ -16,11 +16,6 @@ export default defineConfig({
       usePolling: true
     }
   },
-  resolve: {
-    alias: {
-      // '@': '/src'
-    }
-  },
   build: {
     outDir: 'dist',
     sourcemap: true,

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Users, Book, Activity, Plus, ArrowRight } from 'lucide-react';
-import { toast } from 'react-toastify';
+import {useEffect, useState} from 'react';
+import {motion} from 'framer-motion';
+import {Activity, ArrowRight, Book, Plus, Users} from 'lucide-react';
+import {toast} from 'react-toastify';
 import axiosClient from "../axios.js";
 import PropTypes from 'prop-types';
 
@@ -57,11 +57,9 @@ const StudyGroupsPage = () => {
     GroupCard.propTypes = {
         group: {
             members: PropTypes.array,
+            description: PropTypes.string,
         }
     };
-      
-
-    
 
     const GroupDetails = ({ group }) => (
         <motion.div
@@ -134,7 +132,7 @@ const StudyGroupsPage = () => {
     GroupDetails.propTypes = {
         group: {
             members: PropTypes.array,
-            
+
         }
       };
 
